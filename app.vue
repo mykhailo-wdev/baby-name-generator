@@ -66,7 +66,7 @@
             Short</button>
         </div>
       </div>
-      <button class="primary">Find Names</button>
+      <button class="primary" @click="cumputeSelectedNames">Find Names</button>
     </div>
     {{ selectedNames }}
   </div>
@@ -87,6 +87,20 @@ interface OptionsState {
   length: Length.SHORT,
   popularity: Popularity.TRENDY
 })
+
+const cumputeSelectedNames = () => {
+  const filterNames = names
+  .filter((name) => name.gender === options.gender)
+  .filter((name) => name.popularity === options.popularity)
+  .filter((name) => {
+    if(options.length === Length.ALL) return true
+    else {
+      return name.length === options.length
+    }
+  })
+
+  selectedNames.value = filterNames.map(name => name.name)
+}
 
 const selectedNames = ref<string[]>([])
 
